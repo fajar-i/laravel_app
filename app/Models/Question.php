@@ -6,10 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class Question extends Model
 {
-    protected $fillable = ['text', 'project_id', 'content', 'bloom_taxonomy'];
+    protected $fillable = ['text', 'project_id', 'content', 'bloom_taxonomy', 'ai_validation_result'];
     protected $hidden = [
         'project_id',
         'user_id'
+    ];
+    protected $casts = [
+        // 🔹 Tambahkan ini jika kolom Anda tipenya JSON
+        'ai_validation_result' => 'array',
     ];
     public function project()
     {
@@ -17,6 +21,6 @@ class Question extends Model
     }
     public function options()
     {
-        return $this->hasMany(Option::class);
+        return $this->hasMany(Option::class)->orderBy('option_code', 'asc');
     }
 }
